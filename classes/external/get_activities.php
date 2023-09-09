@@ -167,7 +167,7 @@ class get_activities extends \external_api
             $data = new stdClass();
 
             $gradeItem = getGradeItem($userGrades, $activity['id']);
-            $gradeItem2 = getGradeItem2($userGradesDB, $activity['id']);
+            $gradeItem2 = getGradeItem2($userGradesDB, $activity['name']);
 
 
             $data->courseactivityid = $courseactivityid;

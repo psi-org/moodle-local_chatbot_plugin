@@ -206,7 +206,7 @@ class request_quiz_attempt extends \external_api
                         $return['answers'][$question_answer->id]['answerid'] = $question_answer->id;
                         $return['answers'][$question_answer->id]['answer'] = strip_tags($question_answer->answer);
                         $return['answers'][$question_answer->id]['iscorrectanswer'] = intval($question_answer->fraction);
-                        $return['answers'][$question_answer->id]['feedback'] = $question_answer->feedback;
+                        $return['answers'][$question_answer->id]['feedback'] = strip_tags($question_answer->feedback);
                     }
                 }
 
