@@ -44,7 +44,7 @@ class get_activities extends \external_api
      * Get Activities.
      *
      * @param int $courseid
-     * @param int $userid
+     * @param int $useridg
      * @param int $courseactivityid
      * @param int $activityid
      * @return DB object
@@ -53,7 +53,6 @@ class get_activities extends \external_api
     public static function execute($courseid, $userid, $courseactivityid = 0, $activityid = 0)
     {
         global $DB;
-
         $transaction = $DB->start_delegated_transaction();
 
         $params = array('courseid' => $courseid, 'userid' => $userid);

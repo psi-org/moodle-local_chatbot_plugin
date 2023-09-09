@@ -207,17 +207,17 @@ function getGradeItem($userGrades, $activityIDToSearch)
 {
     foreach ($userGrades['usergrades'] as $userGrade) {
         foreach ($userGrade['gradeitems'] as $gradeitem) {
-            if ($gradeitem['id'] == $activityIDToSearch) {
+            if ($gradeitem['cmid'] == $activityIDToSearch) {
                 return $gradeitem;
             }
         }
     }
 }
 
-function getGradeItem2($userGrades, $activityIDToSearch)
+function getGradeItem2($userGradesDB, $activityNameToSearch)
 {
-    foreach ($userGrades as $userGrade) {
-        if ($userGrade->id == $activityIDToSearch) {
+    foreach ($userGradesDB as $userGrade) {
+        if ($userGrade->itemname == $activityNameToSearch) {
             return $userGrade;
         }
     }

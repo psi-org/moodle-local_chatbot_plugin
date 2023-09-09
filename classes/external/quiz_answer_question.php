@@ -58,7 +58,6 @@ class quiz_answer_question extends \external_api
         $return = array();
 
         $answer_record = $DB->get_record('question_answers', array('id' => $answerid), 'id, answer, fraction', IGNORE_MULTIPLE);
-
         $fraction = $answer_record->fraction;
         $state = 'wrong';
         if (intval($fraction)) {
@@ -172,7 +171,7 @@ class quiz_answer_question extends \external_api
         $quiz = $DB->get_record('quiz', array('id' => $quiz_attempts_record->quiz), '*', MUST_EXIST);
 
         $return['answerstatus'] = $state;
-        $return['answerfeed'] = $DB->get_field('question_answers', 'feedback', array('id' => $answerid), IGNORE_MULTIPLE);
+        $return['answerfeed'] = strip_tags($DB->get_field('question_answers', 'feedback', array('id' => $answerid), IGNORE_MULTIPLE));
         $return['showanswerstatus'] = ($quiz->reviewcorrectness == 0 ? 0 : 1);
         $return['showanswerfeedback'] = ($quiz->reviewspecificfeedback == 0 ? 0 : 1);
 
