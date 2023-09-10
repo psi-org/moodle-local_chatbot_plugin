@@ -13,7 +13,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 //$plugin->version  = yyyymmddxx;
-$plugin->version  = 2023082326; //version of plugin (may)
+$plugin->version  = 2023090905; //version of plugin (may)
 $plugin->requires = 2020061501.03; //version of moodle (may)
 
 $plugin->component = 'local_botmanager'; //name + type of categories from moodle (may)

@@ -109,7 +109,7 @@ function local_botmanager_get_next_question($quiz, $questionusageid, $userid)
             $next_question['answers'][$question->answerid]['answerid'] = $question->answerid;
             $next_question['answers'][$question->answerid]['answer'] = strip_tags($question->answer);
             $next_question['answers'][$question->answerid]['iscorrectanswer'] = intval($question->fraction);
-            $next_question['answers'][$question->answerid]['feedback'] = $question->feedback;
+            $next_question['answers'][$question->answerid]['feedback'] = strip_tags($question->feedback);
 
             $slot = $question->slot;
         }
@@ -441,7 +441,6 @@ function filter_questions_with_latest_versions($arrayOfObjects)
 
 // Convert the associative array back to a simple array containing only the unique objects
     $uniqueObjects = array_values($uniqueSlots);
-
 
     return $uniqueObjects;
 }
