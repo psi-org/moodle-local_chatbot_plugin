@@ -13,7 +13,7 @@ use gradereport_user\external\user as user_external;
 use stdClass;
 
 defined('MOODLE_INTERNAL') || die;
-global $CFG;
+//global $CFG;
 require_once($CFG->libdir . "/externallib.php");
 require_once($CFG->dirroot . '/local/botmanager/lib.php');
 require_once($CFG->dirroot . "/course/externallib.php");

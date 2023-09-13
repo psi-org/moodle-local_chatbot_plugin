@@ -1,22 +1,6 @@
 <?php
 
 $functions = [
-        'local_botmanager_get_userid' => [
-                'classname' => 'local_botmanager\external\get_userid',
-                'description' => 'Return information for user by id',
-                'type' => 'read',
-                'ajax' => true,
-                'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE,],
-        ],
-        'local_botmanager_create_msgtable' => [
-                'classname' => 'local_botmanager\external\create_msgtable',
-                'description' => 'Save string in custom table',
-                'type' => 'read',
-                'ajax' => true,
-                'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE,],
-        ],
-
-    // Function from APPY Bot   
         'local_botmanager_get_lesson_attemps_summary' => [
                 'classname' => 'local_botmanager\external\get_lesson_attemps_summary',
                 'description' => 'Get Lesson Attemps Summary',
@@ -153,8 +137,8 @@ $functions = [
 ];
 
 $services = [
-        'TEST_SERVER' => [
-                'functions' => ['local_botmanager_get_userid', 'local_botmanager_get_user'],
+        'Moodle_Chatbot_Plugin' => [
+                'functions' => ['local_botmanager_get_user'],
                 'requiredcapability' => 'local_botmanager/integration:access',
                 'restrictedusers' => 0,
                 'enabled' => 1,

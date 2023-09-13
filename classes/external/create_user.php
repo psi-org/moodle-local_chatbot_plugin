@@ -12,7 +12,7 @@ use core_date;
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once("{$CFG->libdir}/externallib.php");
+require_once($CFG->libdir. "/externallib.php");
 
 class create_user extends \external_api {
     /**
@@ -28,14 +28,9 @@ class create_user extends \external_api {
                 'prefix' => new external_value(PARAM_INT, 'Prefix'),
                 'mobilephone' => new external_value(PARAM_INT, 'Mobile Phone'),
                 'email' => new external_value(PARAM_TEXT, 'Email', VALUE_DEFAULT, ''),
-                'whatsappid' => new external_value(PARAM_ALPHANUM, 'Whats App ID', VALUE_DEFAULT, ''),
                 'password' => new external_value(PARAM_RAW, 'Password', VALUE_DEFAULT, '000000'),
                 'country' => new external_value(PARAM_TEXT, 'Country', VALUE_DEFAULT, ''),
-                'gender' => new external_value(PARAM_INT, '1 => Male, 2 => Female, 3 => Other', VALUE_DEFAULT, 3),
-                'dateofbirth' => new external_value(PARAM_TEXT, 'Date of Birth i.e. 1986-02-25', VALUE_DEFAULT, null),
                 'lang' => new external_value(PARAM_TEXT, 'Lang', VALUE_DEFAULT, 'en'),
-                'profession_type' => new external_value(PARAM_INT, '1 => Doctor, 2 => Nurse, 3 => Other', VALUE_DEFAULT, 3),
-                'professional_number' => new external_value(PARAM_TEXT, 'Professional ID', VALUE_DEFAULT, ''),
                 'timezone' => new external_value(PARAM_TEXT, 'User Timezone', VALUE_DEFAULT, null)
             ]
         );
@@ -44,14 +39,24 @@ class create_user extends \external_api {
     /**
      * Create User.
      *
-     * @param int $userid
-     * @param int $courseid
-     * @return DB object
-     * @throws moodle_exception
+     * @param $firstname
+     * @param $lastname
+     * @param $prefix
+     * @param $mobilephone
+     * @param string $email
+     * @param $password
+     * @param $country
+     * @param $lang
+     * @param $timezone
+     * @return array object
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \dml_transaction_exception
+     * @throws \moodle_exception
+     * @throws invalid_parameter_exception
      */
     public static function execute($firstname, $lastname, $prefix, $mobilephone, $email = '',
-                                       $whatsappid, $password, $country, $gender, $dateofbirth, $lang,
-                                       $profession_type, $professional_number, $timezone) {
+                                       $password, $country, $lang, $timezone): array {
         global $CFG, $DB;
 
         require_once($CFG->dirroot.'/user/lib.php');
@@ -82,11 +87,6 @@ class create_user extends \external_api {
 
         $user['phone1'] = $prefix.$mobilephone;
 
-        // Make sure auth is valid.
-        /*if (empty($availableauths[$user['auth']])) {
-            throw new invalid_parameter_exception('Invalid authentication type: '.$user['auth']);
-        }*/
-
         $user['auth'] = 'manual';
 
         // Make sure lang is valid.
@@ -108,7 +108,7 @@ class create_user extends \external_api {
             }
             $user['email'] = $email;
         } else {
-            $user['email'] = $mobilephone.'@kiira.com';
+            $user['email'] = $mobilephone.'@moodlechatbotapp.com';
         }
 
         $user['country'] = $country;
@@ -141,36 +141,10 @@ class create_user extends \external_api {
 
         profile_save_data($userObj);
 
-        // // Insert in Kassai User Table.
-        // $local_kassai_user_record = new stdClass();
-        // $local_kassai_user_record->user_id = $user['id'];
-        // $local_kassai_user_record->gender_id = $gender;
-
-        // if ($dateofbirth) {
-        //     if ($dtime = DateTime::createFromFormat("Y-m-d", $dateofbirth)) {
-        //         if ($timestamp = $dtime->getTimestamp()) {
-        //             $local_kassai_user_record->dateofbirth = $timestamp;
-        //         }
-        //     } else {
-        //         throw new invalid_parameter_exception('Invalid value for Date of Birth. The format is yyyy-mm-dd i.e. 1986-02-25');
-        //     }
-        // }
-
-        // $local_kassai_user_record->prefix = $prefix;
-        // $local_kassai_user_record->mobile_phone = $mobilephone;
-        // $local_kassai_user_record->whatsappid = $whatsappid;
-        // $local_kassai_user_record->profession_type = $profession_type;
-        // $local_kassai_user_record->professional_number = $professional_number;
-        // $local_kassai_user_record->verified = 1;
-        // $local_kassai_user_record->timecreated = time();
-        // $local_kassai_user_record->timemodified = time();
-        // $DB->insert_record('local_kassai_user', $local_kassai_user_record);
-
         $transaction->allow_commit();
 
         $usercreated_ojt = new \lang_string('usercreated', 'local_botmanager', null, $lang);
         $usercreated = $usercreated_ojt->out();
-        //$usercreated = 'User Created';
 
         return array('status' => $usercreated, 'userid' => $user['id']);
     }
@@ -178,7 +152,7 @@ class create_user extends \external_api {
     /**
      * Returns description of method result value
      *
-     * @return external_description
+     * @return external_single_structure
      */
     public static function execute_returns(): external_single_structure  {
         return new external_single_structure(
