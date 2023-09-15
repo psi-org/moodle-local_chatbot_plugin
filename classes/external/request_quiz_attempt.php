@@ -272,7 +272,7 @@ class request_quiz_attempt extends \external_api
     /**
      * Returns description of method result value
      *
-     * @return external_description
+     * @return external_single_structure
      */
     public static function execute_returns() {
         return new external_single_structure(

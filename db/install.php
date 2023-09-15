@@ -11,6 +11,8 @@ function xmldb_local_botmanager_install() {
 
     try {
 
+        $customfieldcategoryid = 1;
+
         if (!$DB->record_exists('user_info_field', ['shortname' => 'prefix'])) {
             $prefixfield = (object) [
                     'shortname' => 'prefix',
@@ -28,13 +30,29 @@ function xmldb_local_botmanager_install() {
             $DB->insert_record('user_info_field', $prefixfield);
         }
 
+        if (!$DB->record_exists('customfield_category', ['name' => 'Moodle Chatbot Plugin'])) {
+            $botmodefield_category = (object) [
+                    'name' => 'Moodle Chatbot Plugin',
+                    'descriptionformat' => 0,
+                    'sortorder' => 0,
+                    'timecreated' => time(),
+                    'timemodified' => time(),
+                    'component' => 'core_course',
+                    'area' => 'course',
+                    'itemid' => 0,
+                    'contextid' => 1
+            ];
+
+            $customfieldcategoryid = $DB->insert_record('customfield_category', $botmodefield_category);
+        }
+
         if (!$DB->record_exists('customfield_field', ['shortname' => 'botmode'])) {
             $botmodefield = (object) [
                     'shortname' => 'botmode',
                     'name' => 'BotMode',
                     'type' => 'select',
                     'description' => 'Course Bot Mode field',
-                    'categoryid' => 1,
+                    'categoryid' => $customfieldcategoryid,
                     'configdata' => '{"required":"0","uniquevalues":"0","options":"No\r\nYes","defaultvalue":"No","locked":"0","visibility":"2"}',
                     'timecreated' => time(),
                     'timemodified' => time()

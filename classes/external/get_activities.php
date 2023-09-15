@@ -252,7 +252,7 @@ class get_activities extends \external_api
     /**
      * Returns description of method result value
      *
-     * @return external_description
+     * @return external_multiple_structure
      */
     public
     static function execute_returns()
